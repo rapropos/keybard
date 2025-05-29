@@ -40,7 +40,7 @@ function buildEditableLabel(index, name) {
 
 function getEditableName(type, index, def, skipidx) {
     const barename = getEditableBareName(type, index, def);
-    const rv = skipidx ? name : buildEditableLabel(index, barename);
+    const rv = skipidx ? barename : buildEditableLabel(index, barename);
     return rv;
 }
 

@@ -35,7 +35,10 @@ function getEditableBareName(type, index, def) {
 //
 ////////////////////////////////////
 function buildEditableLabel(index, name) {
-    const rv = name === index ? name : `${index}: ${name}`;
+    // IMPORTANT: == is used here instead of === because it is very likely
+    // that index is coming in as a number and name as a stringified version
+    // of it, so we want loose equality checking here.
+    const rv = name == index ? name : `${index}: ${name}`;
     return rv;
 }
 

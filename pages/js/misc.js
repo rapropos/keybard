@@ -23,18 +23,19 @@ function getEditableBareName(type, index, def) {
     const rv = KBINFO.cosmetic?.[type]?.[index]
         ?? local?.[type]?.[index]
         ?? def
-        ?? '';
+        ?? '' + index;
     return rv;
 }
 
 ////////////////////////////////////
 //
 //  Compose an unambiguous label for entities whose names can be changed by
-//  the user by prefixing the given index
+//  the user by prefixing the given index, unless the given name itself
+//  *is* that index, in which case we do not prefix.
 //
 ////////////////////////////////////
 function buildEditableLabel(index, name) {
-    const rv = `${index}: ${name}`;
+    const rv = name === index ? name : `${index}: ${name}`;
     return rv;
 }
 
@@ -50,7 +51,7 @@ function makeEditableName(editable, type, index) {
     editable.dataset.editableType = type;
     editable.dataset.editableIndex = index;
 
-    let name = getEditableName(type, index, '' + index);
+    let name = getEditableName(type, index);
 
     const editableContent = EL(
         'div',

@@ -46,6 +46,9 @@ addInitializer("load", () => {
     };
 
     IROIRO.hsv255ToIro = (hsv255) => {
+        if (!hsv255) {
+            return IROIRO.fallback;
+        }
         const hsv360 = IROIRO.hsv255To360(hsv255);
         const rv = new iro.Color(hsv360);
         return rv;

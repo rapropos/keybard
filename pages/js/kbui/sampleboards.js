@@ -233,8 +233,8 @@ addInitializer('load', () => {
           },
           SVG.layerIcon()
         );
-        const layerHsv255 = KBINFO.layer_colors[layerid];
-        const layerIro = IROIRO.hsv255ToIro(layerHsv255);
+        const layerHsv256 = KBINFO.layer_colors[layerid];
+        const layerIro = IROIRO.hsv256ToIro(layerHsv256);
         const colorHex = layerIro.hexString;
         const colorDot = EL('div', {
           class: 'color-dot',

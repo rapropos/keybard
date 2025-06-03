@@ -2367,8 +2367,7 @@
         <button class="scroll-right scroll-button" data-target="#layer-selection">›</button>
       </div>
       <div id="layer-header">
-        <label data-open="#float-colorpicker" id="open-colorpicker" class="connect-enable"
-          style="cursor: pointer">
+        <label id="open-colorpicker" style="cursor: pointer">
           <div class="color-dot" id="layer-color-dot"></div>
         </label>
         <h3 id="layer-header-title">Title</h3>
@@ -2504,9 +2503,14 @@
   </p>
 </div>
 
-  <div id="float-colorpicker" class="floater closeable" display="none">
+  <div id="float-colorpicker" class="floater closeable">
 
     <div id="colorpicker-host"></div>
+
+<!--    <div class="button-row">-->
+<!--        <input type="checkbox" id="iro-global-brightness-cbox"-->
+<!--               name="Use consistent brightness"/>-->
+<!--    </div>-->
 
     <div class="button-row">
         <button data-action="colorpicker-cancel">Cancel</button>
@@ -2523,6 +2527,19 @@
     </div>
     <div id="tiptip">
       <div class="tip">
+  <h3>TypeBind</h3>
+  <p>
+    Did you know: While normally you click a key in your keyboard, then a key
+    in the example boards to bind it to - you can use your keyboard to bind
+    it to a key! Enable "Typing binds a key" in the menu, then click a key
+    to assign to, then just type the key on your keyboard!
+  </p>
+  <p>
+    Bonus: works exceptionally well with Serial Assignment!
+  </p>
+  <img src="images/tip-typebind.png" style="width: 300px;"/>
+</div>
+<div class="tip">
   <h3>Quick actions for keys</h3>
   <p>
     Did you know: R-Clicking a key in your keyboard map will show you some easy
@@ -2541,6 +2558,16 @@
   <img src="images/tip-contextmenu.png" style="width: 300px;"/>
 </div>
 <div class="tip">
+  <h3>Printing layer maps</h3>
+  <p>
+    Did you know: While the default UI is annoying to print, Keybard has a
+    "print" option in the menu that opens a new window with all your
+    non-empty layers. You can remove them at will, and print out an easy
+    reference sheet!
+  </p>
+  <img src="images/tip-print.png" style="width: 500px;"/>
+</div>
+<div class="tip">
   <h3>Layer names</h3>
   <p>
     Did you know: You can assign cosmetic names to your layers in Keybard!
@@ -2554,19 +2581,6 @@
   <img src="images/tip-layername.png" style="width: 400px;"/>
 </div>
 <div class="tip">
-  <h3>TypeBind</h3>
-  <p>
-    Did you know: While normally you click a key in your keyboard, then a key
-    in the example boards to bind it to - you can use your keyboard to bind
-    it to a key! Enable "Typing binds a key" in the menu, then click a key
-    to assign to, then just type the key on your keyboard!
-  </p>
-  <p>
-    Bonus: works exceptionally well with Serial Assignment!
-  </p>
-  <img src="images/tip-typebind.png" style="width: 300px;"/>
-</div>
-<div class="tip">
   <h3>Serial Assignment</h3>
   <p>
     Did you know: You don't have to click each key one by one to assign to
@@ -2575,16 +2589,6 @@
     jumps to the next in its series.
   </p>
   <img src="images/tip-serial.png" style="width: 60vw; height: 30vh;"/>
-</div>
-<div class="tip">
-  <h3>Printing layer maps</h3>
-  <p>
-    Did you know: While the default UI is annoying to print, Keybard has a
-    "print" option in the menu that opens a new window with all your
-    non-empty layers. You can remove them at will, and print out an easy
-    reference sheet!
-  </p>
-  <img src="images/tip-print.png" style="width: 500px;"/>
 </div>
 
     </div>

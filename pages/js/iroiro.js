@@ -143,12 +143,12 @@ addInitializer('load', () => {
         {component: iro.ui.Slider, options: {sliderType: 'value'}},
     ];
 
+    IROIRO.pickerHostEl = get('#colorpicker-host');
+    IROIRO.pickerDlogEl = get('#float-colorpicker');
+
     IROIRO.picker = new iro.ColorPicker(IROIRO.pickerHostEl, {
         layout: IROIRO._consistentBrightnessPickerLayout,
     });
-
-    IROIRO.pickerHostEl = get('#colorpicker-host');
-    IROIRO.pickerDlogEl = get('#float-colorpicker');
 
     IROIRO.setPickerIro = (iro) => {
         IROIRO.picker.color.hsv = iro.hsv;
@@ -191,7 +191,7 @@ addInitializer('connected', () => {
         const hsv360 = IROIRO.picker.color.hsv;
         const hsv256 = IROIRO.hsv360To256(hsv360);
         // const hsv255 = IROIRO._withConsistentBrightness(hsv256);
-        const hsv255 = hsv256;
+        const hsv255 = {...hsv256, val: 255};
         const selectedLayerId = MAINBOARD.selectedLayer;
 
         if (!isShallowlyEqual(IROIRO._wip[selectedLayerId], hsv255)) {
@@ -203,7 +203,7 @@ addInitializer('connected', () => {
         if (!isShallowlyEqual(IROIRO._wip, KBINFO.layer_colors)) {
             KBINFO.layer_colors = IROIRO._wip;
             return CHANGES.queue('layer colors', () => Promise.all(
-                Object.keys(IROIRO._wip)
+                Object.keys(KBINFO.layer_colors)
                     .filter(lix => !isShallowlyEqual(KBINFO.layer_colors[lix], BASE_KBINFO.layer_colors[lix]))
                     .map(lix => {
                         const hsv256 = KBINFO.layer_colors[lix];
@@ -223,8 +223,10 @@ addInitializer('connected', () => {
     });
 
     ACTION.onclick('[data-action="colorpicker-accept"]', () => {
+        IROIRO.setSelectedLayerColorFromPicker()
         void IROIRO._recordChanges();
         ACTION.closeFloats();
+        MAINBOARD.updateAll();
     });
 
     // // explicitly user-chosen brightness maxes out at 254. 255, which is the

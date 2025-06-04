@@ -48,7 +48,6 @@ body {
   flex-flow: column;
   background-color: #f9f9f9;
   border-bottom: 1px solid #e5e5e5;
-  z-index: 2;
 }
 
 #topbar-container {

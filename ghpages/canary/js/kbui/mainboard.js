@@ -115,8 +115,8 @@ addInitializer('connected', () => {
     };
 
     const keyboxstyle = {
-      width: `48px`,
-      height: `48px`,
+      width: `40px`,
+      height: `40px`,
       'border-width': `${sizes.strokeWidth}px`,
       'border-radius': `${sizes.roundOuter}px`,
       position: 'absolute',

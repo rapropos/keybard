@@ -75,7 +75,7 @@ const IROIRO = {
     _rescaleIntegerIX: (inV, fromScale, toScale) => {
         const irv = IROIRO._rescaleIntegerII(inV, fromScale, toScale);
         const rv = irv >= toScale ? toScale - 1 : irv;
-        return irv;
+        return rv;
     },
 
     _rescaleIntegerXI: (inV, fromScale, toScale) => {

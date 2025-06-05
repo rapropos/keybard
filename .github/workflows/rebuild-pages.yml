@@ -48,7 +48,6 @@ jobs:
           rm -rf "ghpages/${{github.ref_name}}"
           cp -r temppages "ghpages/${{github.ref_name}}"
         fi
-        rm -rf temppages
         git config --global user.email "autopages@keybard.svalboard.app"
         git config --global user.name "AutoPages"
         git add ghpages

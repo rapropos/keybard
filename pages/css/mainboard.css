@@ -372,3 +372,9 @@
 .ko-toggle.checked {
     background-color: #ccf;
 }
+
+.selected-layer-colors {
+    background-color: var(--chameo-layer-selected);
+    color: var(--chameo-layer-selected-contrast);
+}
+

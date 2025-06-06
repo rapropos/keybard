@@ -137,7 +137,7 @@ addInitializer('connected', () => {
     const keybox = EL(
       'div',
       {
-        class: 'key green',
+        class: 'key selected-layer-colors',
         'data-kmid': kmid,
         style: keyboxstyle,
       },
@@ -293,10 +293,7 @@ addInitializer('connected', () => {
       const displayName = names?.layer?.[layerIndex] || layerIndex;
       layerHeaderTitle.textContent = `${displayName}`;
 
-      IROIRO.setPickerColorFromSelectedLayer();
-      const layerColorHex = IROIRO.picker.color.hexString;
-      const colorDot = get('#layer-color-dot');
-      colorDot.style.backgroundColor = layerColorHex;
+      IROIRO.updateSelectedLayerColorCSS();
 
       selectedLayer.classList.add('selected');
       const editIcon = EL(
@@ -332,6 +329,7 @@ addInitializer('connected', () => {
   //
   ////////////////////////////////////
   MAINBOARD.updateAll = () => {
+    IROIRO.updateSelectedLayerColorCSS();
     drawLayer(MAINBOARD.selectedLayer);
 
     for (let ilayer = 0; ilayer < KBINFO.layers; ilayer++) {

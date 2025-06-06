@@ -32,16 +32,12 @@ const IROIRO = {
     hsv256ToIro: dieAsUninitialized,
     iroToHsv256: dieAsUninitialized,
 
-    luminanceOf: (iro) => {
-        // https://stackoverflow.com/questions/3942878
-        const rv = iro.red * 0.299 + iro.green * 0.587 + iro.blue * 0.114;
+    makeContrastHexstringFor: (againstHex) => {
+        const ogtc = tinycolor(againstHex);
+        const luminancePivot = 0.3;
+        const oglum = ogtc.getLuminance();
+        const rv = oglum > luminancePivot ? "#000" : "#fff";
         return rv;
-    },
-
-    makeContrastHexstringFor: (iro) => {
-        const luminancePivot = 160;
-        const lum = IROIRO.luminanceOf(iro);
-        return lum > luminancePivot ? '#000' : '#fff';
     },
     getSelectedLayerColors: dieAsUninitialized,
 
@@ -52,6 +48,7 @@ const IROIRO = {
     setPickerIro: dieAsUninitialized,
 
     updateAll: dieAsUninitialized,
+    updateSelectedLayerColorCSS: dieAsUninitialized,
 
     // in the rescaling functions, I means inclusive upper bound and X is exclusive.
 
@@ -165,7 +162,7 @@ addInitializer('connected', () => {
     IROIRO.getSelectedLayerColors = () => {
         const bghsv = KBINFO.layer_colors[MAINBOARD.selectedLayer];
         const bgiro = IROIRO.hsv256ToIro(bghsv);
-        const fg = IROIRO.makeContrastHexstringFor(bgiro);
+        const fg = IROIRO.makeContrastHexstringFor(bgiro.hexstring);
         const rv = {
             backgroundColor: bgiro.hexstring,
             color: fg,
@@ -187,6 +184,13 @@ addInitializer('connected', () => {
         IROIRO.setPickerIro(layerIro);
     };
 
+    IROIRO._putLayerColorClassesInDocumentStyle = (lix, bghex) => {
+        const fghex = IROIRO.makeContrastHexstringFor(bghex);
+        const styley = document.documentElement.style;
+        styley.setProperty(`--chameo-layer-${lix}`, bghex);
+        styley.setProperty(`--chameo-layer-${lix}-contrast`, fghex);
+    };
+
     IROIRO.setSelectedLayerColorFromPicker = () => {
         const hsv360 = IROIRO.picker.color.hsv;
         const hsv256 = IROIRO.hsv360To256(hsv360);
@@ -196,10 +200,12 @@ addInitializer('connected', () => {
 
         if (!isShallowlyEqual(IROIRO._wip[selectedLayerId], hsv255)) {
             IROIRO._wip[selectedLayerId] = hsv255;
+            const bghex = IROIRO.hsv256ToIro(hsv255).hexString;
+            IROIRO._putLayerColorClassesInDocumentStyle(selectedLayerId, bghex);
         }
     }
 
-   IROIRO._recordChanges = () => {
+    IROIRO._recordChanges = () => {
         if (!isShallowlyEqual(IROIRO._wip, KBINFO.layer_colors)) {
             KBINFO.layer_colors = IROIRO._wip;
             return CHANGES.queue('layer colors', () => Promise.all(
@@ -228,6 +234,28 @@ addInitializer('connected', () => {
         ACTION.closeFloats();
         MAINBOARD.updateAll();
     });
+
+    IROIRO._putAllLayerColorClassesInDocumentStyle = () => {
+        KBINFO.layer_colors.forEach((hsv256, ix) => {
+            const bgIro = IROIRO.hsv256ToIro(hsv256);
+            const bghex = bgIro.hexString;
+            IROIRO._putLayerColorClassesInDocumentStyle(ix, bghex);
+        });
+    };
+
+    // do this on every connection
+    IROIRO._putAllLayerColorClassesInDocumentStyle();
+
+    IROIRO.updateAll = () => {
+        IROIRO._putLayerColorClassesInDocumentStyle();
+    };
+
+    IROIRO.updateSelectedLayerColorCSS = () => {
+        const layerIndex = MAINBOARD.selectedLayer;
+        const styley = document.documentElement.style;
+        styley.setProperty('--chameo-layer-selected', `var(--chameo-layer-${layerIndex})`);
+        styley.setProperty('--chameo-layer-selected-contrast', `var(--chameo-layer-${layerIndex}-contrast)`);
+    };
 
     // // explicitly user-chosen brightness maxes out at 254. 255, which is the
     // // historical default here, is used as a sentinel value meaning that
